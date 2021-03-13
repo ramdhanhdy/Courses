@@ -1,0 +1,41 @@
+1. Cassandra 
+
+Step 1) Prompt 'cqlsh' in the VM terminal.
+
+Step 2) Create keyspace
+i) create keyspace project with replication={'class':'SimpleStrategy', 'replication_factor':3};
+ii) use project;
+
+Step 3) Create table
+i) COPY crimes FROM '/home/Dataset2.csv' WITH DELIMITER='|' AND HEADER=TRUE;
+
+
+Step 4) Run queries
+
+i) TRACING ON;
+ii) use project;
+iii) SELECT * FROM crimes LIMIT 1000;
+iv) SELECT * FROM crimes WHERE arrest = true LIMIT 1000 ALLOW FILTERING; 
+v) SELECT* FROM crimes WHERE primarytype = 'THEFT' LIMIT 1000 ALLOW FILTERING; 
+vi) SELECT * FROM crimes WHERE locationdescription = 'STREET' LIMIT 1000 ALLOW FILTERING;
+vii) SELECT * FROM crimes WHERE primarytype = 'THEFT' AND  locationdescription = 'STREET' AND year = 2016 LIMIT 1000 ALLOW FILTERING;
+viii) SELECT * FROM crimes WHERE year > 2010 LIMIT 1000 ALLOW FILTERING;
+
+2. MongoDB
+
+Step 1) Load data from csv file via VM terminal after creating a collection called 'project;
+i) mongoimport --type csv -d exercises -c crimes --type csv --file /home/Dataset2.csv --headerline
+
+Step 2) Prompt 'mongo' in VM terminal
+
+Step 3) Run queries
+
+i) use project
+
+ii) db.crimes.find().limit(1000).explain("executionStats") 
+iii) db.crimes.find({'Arrest':'true'}).limit(1000).explain("executionStats") 
+iv) db.crimes.find({"Primary Type":"THEFT"}).limit(1000).explain("executionStats") 
+v) db.crimes.find({"Location Description":"STREET"}).limit(1000).explain("executionStats") 
+vi) db.crimes.find({"Year":2016,"Primary Type":"THEFT","Location Description":"STREET"}).limit(1000).explain("executionStats") 
+vii) db.crimes.find({Year:{$gt:2010}}).limit(1000).explain("executionStats") 
+viii) db.crimes.find({$or:[{Year:2012},{Year:2013}]}).explain("executionStats") 
