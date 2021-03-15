@@ -1,4 +1,4 @@
-## List of Notebooks for practice
+## List of Notebooks for practice and future reference
 
 ### Content
 - Advanced Data Preparation : Automatic data pre-procession using vtreat package
